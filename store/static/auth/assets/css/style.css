@@ -1,0 +1,58 @@
+a {
+    text-decoration: none!important;
+}
+a:hover{
+    color: #121212;
+}
+.login-page{
+    background-image: url(../images/slide_03.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.card{
+    border-radius: 0px;
+}
+.card-body{
+    padding: 1.5rem 2.5rem;
+}
+.form-control{
+    border-radius: 0px;
+}
+.form-control:focus {
+    box-shadow: none;
+    border: 1px solid #000;
+}
+.login-box{
+    width: 500px;
+}
+.btn-filled{
+    background-color: #19D3DA;
+    color: #fff;
+    font-size: 14px;
+    text-transform: capitalize;
+    font-weight: 300;
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: inline-block;
+    transition: all 0.3s;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+.btn-filled:hover{
+    background-color: #121212;
+    color: #fff;
+}
+.link{
+    color:#19D3DA ;
+}
+
+.alert{
+    border-radius: 0px;
+}
