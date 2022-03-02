@@ -1,0 +1,41 @@
+{% extends 'company/dashboard/base.html' %}
+{% block content %}
+<div class="content-header">
+<div class="container-fluid">
+    <div class="card card-dark">
+        <div class="card-header">
+            <h1 class="card-title">Customers of Your Company:</h1>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body p-0">
+        <table class="table table-hover">
+            <thead class="table-secondary">
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Contact Number</th>
+                <th>Registration Date:</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for customer in customers %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ customer.name }}</td>
+                <td>{{ customer.email }}</td>
+                <td>{{ customer.contact_number }}</td>
+                <td>{{ customer.reg_date }}</td>
+                <td><a href="{% url 'delete_customer' customer.id %}" type="button" class="btn btn-danger btn-sm">Delete</a></td>
+            </tr>
+            {% empty %}
+                <h1>No Customers</h1>
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    </div>
+   </div>
+</div>
+{% endblock %}

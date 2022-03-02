@@ -1,0 +1,40 @@
+{% extends 'store/auth/base.html' %}
+{% block title %}Customer Login{% endblock %}
+
+{% block content %}
+
+<div class="login-page">
+    <div class="card login-box">
+        <div class="card-body">
+            <h2 class="mb-3"><span class="border-bottom">Sign In</span></h2>
+                <form method="POST">
+                    {% csrf_token %}
+                    {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true"> &times;</span>
+                        </button>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                    <div class="form-group">
+                        <label>Email:</label>
+                        <input type="email" class="form-control" name="email" placeholder="user@email.com" required>
+                    </div><!-- End .form-group -->
+                    <div class="form-group">
+                        <label>Password:</label>
+                        <input type="password" class="form-control" name="password" placeholder="Your Password" required>
+                    </div><!-- End .form-group -->
+                    <button type="submit" class="btn btn-filled">
+                        <span>Sign In</span>
+                    </button>
+                </form>
+                <hr>
+            <p class="text-center">Don't have An Account? <a href="{% url 'register' %}" class="link">Register Here</a></p>
+        </div><!-- .End .tab-pane -->
+    </div>
+</div>
+
+{% endblock %}

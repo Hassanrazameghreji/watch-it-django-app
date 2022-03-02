@@ -1,0 +1,57 @@
+{% extends 'company/dashboard/base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-center flex-wrap">
+                <div class="image">
+                    <img src="{{ User.profile.url }}" class="img-circle elevation-2" alt="User Image" style="width: 215px;">
+                </div>
+            <div class="px-4 align-self-center mt-2">
+                <h2>{{ User.name }}</h2>
+                <h4 class="text-muted">{{ User.email }}</h4>
+                <h4 class="text-muted">Contact: {{ User.contact_number }}</h4>
+            </div>
+        </div>
+        <hr>
+        <div class="card card-dark">
+            <div class="card-header">
+            <h2 class="card-title" style="font-size: 1.5em; padding: 10px 0;">Update Profile</h2>
+            </div>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="card-body">
+                <div class="form-group">
+                    <label>Company Name:</label>
+                    {% render_field form.name class="form-control" placeholder="Your Company Name"%}
+                </div>
+                <div class="form-group">
+                    <label>Email address</label>
+                    {% render_field form.email|attr:"type:email" class="form-control" placeholder="Your Company Name"%}
+                </div>
+                <div class="form-group">
+                    <label>Company Contact Number:</label>
+                    {% render_field form.contact_number|attr:"type:tel" class="form-control" placeholder="Your Company Contact Number"%}
+                </div>    
+                <div class="form-group">
+                    <label>Company Address:</label>
+                    {% render_field form.address class="form-control" rows="3" placeholder="Your Company Name"%}   
+                </div>
+                <div class="form-group">
+                    <label>Upload Profile:</label><br>
+                    {% render_field form.profile|attr:"type:file"|attr:"accept:image/*" class="form-control-file" %}
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    {% render_field form.password class="form-control" %}
+                </div>
+                </div>
+                <div class="card-footer">
+                <button type="submit" class="btn btn-dark">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

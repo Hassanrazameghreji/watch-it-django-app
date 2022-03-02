@@ -1,0 +1,42 @@
+{% extends 'company/dashboard/base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="card card-dark">
+            <div class="card-header">
+            <h2 class="card-title" style="font-size: 1.5em; padding: 10px 0;">{{ action }} Product</h2>
+            </div>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="card-body">
+                <div class="form-group">
+                    <label>Product Name:</label>
+                    {% render_field form.name class="form-control" placeholder="Product Name"%}
+                </div>
+                <div class="form-group">
+                    <label>Product Name:</label>
+                    {% render_field form.description rows="3" class="form-control" placeholder="Product Description"%}
+                </div>
+                <div class="form-group">
+                    <label>Product Price</label>
+                    {% render_field form.price|attr:"type:number" class="form-control" placeholder="Price"%}
+                </div>
+                <div class="form-group">
+                    <label>Product Stock</label>
+                    {% render_field form.stock|attr:"type:number" class="form-control" placeholder="Product Stock"%}
+                </div>    
+                <div class="form-group">
+                    <label>Product Image:</label><br>
+                    {% render_field form.image|attr:"type:file"|attr:"accept:image/*" class="form-control" %}
+                </div>
+                </div>
+                <div class="card-footer">
+                <button type="submit" class="btn btn-dark">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

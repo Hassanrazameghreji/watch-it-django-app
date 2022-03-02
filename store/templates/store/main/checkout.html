@@ -1,0 +1,177 @@
+{% extends 'store/main/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="content-box">
+    <div class="container">
+        <a href="{% url 'cart' %}" type="button" class="btn btn-outline-secondary">
+            <i class="fa fa-angle-left"></i> Back To Cart
+        </a>
+        <div class="row content-items-box">
+            <div class="col-lg-5">
+                <div id="form-wrapper" class="border p-4">
+                    <form id="form">
+                        <div id="user-info" class="form-row">
+                          <div class="form-group col-md-6">
+                            <label>Name</label>
+                            <input type="Name" name='name' class="form-control" placeholder="Name.." required=True>
+                          </div>
+                          <div class="form-group col-md-6">
+                            <label>Email</label>
+                            <input type="email" name="email" class="form-control" placeholder="Email.." required=True>
+                          </div>
+                        </div>
+                        <h5 class="border-top border-bottom py-2">Shipping Information:</h5>
+                        <div class="form-group mt-3">
+                          <label for="inputAddress">Address</label>
+                          <input type="text" class="form-control" name="address" id="inputAddress" placeholder="1234 Main St" required=True>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group col-md-6">
+                            <label for="inputCity">City</label>
+                            <input type="text" class="form-control" name="city" id="inputCity" placeholder="City.." required=True>
+                          </div>
+                          <div class="form-group col-md-6">
+                            <label for="inputState">State</label>
+                            <input type="text" class="form-control" name="state" placeholder="State.." required=True>
+                          </div>
+                          <div class="form-group col-md-6">
+                            <label for="inputZip">Zip</label>
+                            <input type="text" class="form-control" name="zip" placeholder="Zipcode.." required=True>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" id="form-button" class="btn btn-success btn-block">Continue</button>
+                        </div>
+                      </form>
+                </div>
+                <br>
+                <div class="box-element border hidden p-4" id="payment-info">
+                  Paypal Options
+                  <div id="paypal-button-container"></div>
+                  <!-- <button id="make-payment" class="btn btn-info">Make Payment</button> -->
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="order-summary border p-4">
+                    <h3 class="py-3">Order Summary</h3>
+                    <table class="table border-top border-bottom">
+                      <tr>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Qty</th>
+                        <th>Total Price</th>
+                      </tr>
+                      {% for item in items %}
+                        <tr>
+                            <td>{{ item.product.name }}</td>
+                            <td>Rs.{{ item.product.price }}</td>
+                            <td>x{{ item.quantity }}</td>
+                            <td>Rs.{{ item.get_total }}</td>
+                        </tr>
+                      {% endfor %}
+                    </table>
+                      <h5 class="d-inline">Items: {{ order.get_cart_items }}</h5>
+                      <h5 class="d-inline float-right">Total: Rs. {{ order.get_cart_total }}</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://www.paypal.com/sdk/js?client-id=AQAbL7xpFNGEmboHqTYKcVg4mtiTtrF0IqgQEcHDSFmRv4vFjzMuYNw09EnZAlBmcRlDC1wvgUEgsv0E&currency=USD"></script>
+<script>
+  // Render the PayPal button into #paypal-button-container
+  paypal.Buttons({
+
+      style:{
+        color:'blue',
+        shape:'rect', 
+      },
+
+      // Set up the transaction
+      createOrder: function(data, actions) {
+          return actions.order.create({
+              purchase_units: [{
+                  amount: {
+                      value: '1.50'
+                  }
+              }]
+          });
+      },
+      // Finalize the transaction
+      onApprove: function(data, actions) {
+          return actions.order.capture().then(function(details) {
+              // Show a success message to the buyer
+              alert('Transaction completed by ' + details.payer.name.given_name + '!');
+          });
+      }
+  }).render('#paypal-button-container');
+
+</script>
+<script>
+  var total = '{{ order.get_cart_total }}'
+    if (user != 'AnonymousUser'){
+      document.getElementById('user-info').innerHTML = ''
+    }
+
+    var form = document.getElementById('form')
+    form.addEventListener('submit', function(e){
+      e.preventDefault()
+      console.log('form submitted')
+      document.getElementById('form-button').classList.add('hidden')
+      document.getElementById('payment-info').classList.remove('hidden')
+    })
+
+    // document.getElementById('make-payment').addEventListener('click', function(e){
+    //   submitFromData()
+    // })
+
+    function submitFromData(){
+
+      console.log('Payment Button Clicked')
+      var userFormData = {
+        'name':null,
+        'email':null,
+        'total':total
+      }
+      var shippingInfo = {
+        'address':form.address.value,
+        'city':form.city.value,
+        'state':form.state.value,
+        'zip':form.zip.value,
+      }
+      if (user== 'AnonymousUser'){
+        userFormData.name=form.name.value
+        userFormData.email=form.email.value
+      }
+      var url = '/process_order/'
+      fetch(url, {
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json',
+          'X-CSRFToken':csrftoken,
+        },
+        body: JSON.stringify({
+          'form':userFormData,
+          'shipping':shippingInfo
+        })
+      })
+      .then((response) =>{
+        return response.json()
+    })
+    .then((data) =>{
+        console.log('Success:',data);
+        alert('Transaction Completed');
+
+        cart = {}
+        document.cookie = 'cart=' + JSON.stringify(cart) + ";domain=;path=/"
+
+        window.location.href = "{% url 'home' %}"
+    })
+
+    }
+</script>
+
+{% endblock content %}
+
+

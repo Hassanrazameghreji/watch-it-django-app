@@ -1,0 +1,57 @@
+{% extends 'customer/main/base.html' %}
+{% load static %}
+{% block content %}
+<style>
+    .product-section{
+        margin-top: 30px;
+        padding: 30px;
+    }
+    .product-section .product-description{
+        font-size: 1.2em;
+    }
+    .product-img{
+        width: inherit;
+    }
+</style>
+<div class="main-content">
+    <div class="container">
+        <h2>Product Details:</h2>
+        <div class="product-section border">
+            <div class="row">
+                <div class="col-lg-6"><img class="product-img" src="{{ product.image.url }}" alt=""></div>
+                <div class="col-lg-6 align-self-center"> 
+                    {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true"> &times;</span>
+                            </button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    <h1>{{ product.name }}</h1>
+                    <h5 class="text-muted">M.R.P: <span style="color: red;">Rs. {{ product.price }} </span></h5>
+                    <p class="product-description mt-3"><strong>Description:</strong>{{ product.description }}</p>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="form-group my-3">
+                        <label>Quantity:</label>
+                        <select name="quantity" class="form-control">
+                            <option value="1" selected>1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        </div>
+                        <button class="filled-button">Order Now</button>
+                    </form>
+                </div>
+            </div>
+           
+        </div>
+            
+    </div>
+</div>
+{% endblock %}

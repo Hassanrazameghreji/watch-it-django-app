@@ -1,0 +1,34 @@
+{% extends 'company/dashboard/base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="card card-dark">
+            <div class="card-header">
+            <h2 class="card-title" style="font-size: 1.5em; padding: 10px 0;">Add Customer</h2>
+            </div>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="card-body">
+                <div class="form-group">
+                    <label>Customer Name:</label>
+                    {% render_field form.name class="form-control" placeholder="Customer Name"%}
+                </div>
+                <div class="form-group">
+                    <label>Email address</label>
+                    {% render_field form.email|attr:"type:email" class="form-control" placeholder="customer@email.com"%}
+                </div>
+                <div class="form-group">
+                    <label>Customer Contact Number:</label>
+                    {% render_field form.contact_number|attr:"type:tel" class="form-control" placeholder="Customer Contact Number"%}
+                </div>    
+                </div>
+                <div class="card-footer">
+                <button type="submit" class="btn btn-dark">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

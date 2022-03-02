@@ -1,0 +1,64 @@
+{% extends 'company/authentication/base.html' %}
+{% block content %}
+<div class="hold-transition register-page">
+    <div class="register-box">
+      <div class="card card-outline card-primary">
+        <div class="card-header text-center">
+          <h1 style="font-family: Brush Script MT, Brush Script Std, cursive; letter-spacing: 1px; font-weight: 600;">CompanyDash</h1>
+        </div>
+        <div class="card-body">
+          <p class="login-box-msg">Register Company</p>
+          <form method="post">
+            {% csrf_token %}
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}" role="alert">
+              {{ message }}
+            </div>
+            {% endfor %}
+          {% endif %}
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" name="username" placeholder="Company name" required="True">
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-user"></span>
+                </div>
+              </div>
+            </div>
+            <div class="input-group mb-3">
+              <input type="email" class="form-control" name="email" placeholder="Email" required="True">
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-envelope"></span>
+                </div>
+              </div>
+            </div>
+            <div class="input-group mb-3">
+              <input type="password" class="form-control" name="password" placeholder="Password" required="True">
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-lock"></span>
+                </div>
+              </div>
+            </div>
+            <div class="input-group mb-3">
+              <input type="password" class="form-control" name="re_pass" placeholder="Retype password" required="True">
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-lock"></span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block">Register</button>
+            </div>
+          </form>
+          <hr>
+          Already Registered? <a href="{% url 'login' %}" class="text-center">Login Here</a>
+        </div>
+      </div>
+    </div>
+</div>
+
+{% endblock %}
+

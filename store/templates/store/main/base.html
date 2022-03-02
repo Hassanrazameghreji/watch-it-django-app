@@ -1,0 +1,172 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+
+    <title>ShopEasy</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'main/vendor/bootstrap/css/bootstrap.css' %}" rel="stylesheet">
+    
+    <link rel="stylesheet" href="{% static 'main/assets/css/fontawesome.css' %}">
+    <link rel="stylesheet" href="{% static 'main/assets/css/owl.css' %}">
+    <link rel="stylesheet" href="{% static 'main/assets/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'main/assets/css/cart-checkout.css' %}">
+    <script>
+      var user = '{{ request.user }}'
+
+      function getToken(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                  }
+              }
+          }
+          return cookieValue;
+      }
+      const csrftoken = getToken('csrftoken');
+      // Get Cart Cookie
+      function getCookie(name){
+        var cookieArr = document.cookie.split(";");
+        for(var i=0; i< cookieArr.length; i++){
+          var cookiePair = cookieArr[i].split("=");
+          if(name == cookiePair[0].trim()){
+            return decodeURIComponent(cookiePair[1])
+          }
+        }
+        return null;
+      }
+      var cart = JSON.parse(getCookie('cart'))
+      if(cart == undefined){
+        cart = {}
+        console.log('Cart was Created')
+        document.cookie = 'cart='+ JSON.stringify(cart) + ";domain=;path=/"
+      }
+      console.log('cart', cart)
+    </script>
+
+  </head>
+  <style>
+    a.login-button {
+    background-color: #19D3DA;
+    color: #121212 !important;
+    font-size: 14px;
+    text-transform: capitalize;
+    font-weight: 300;
+    padding: 8px 20px;
+    border-radius: 5px;
+    display: inline-block;
+    transition: all 0.3s;
+  }
+
+  a.login-button:hover {
+    background-color: #121212;
+    color: #fff !important;
+  }
+  </style>
+
+  <body>
+
+    <!-- ***** Preloader Start ***** -->
+    <div id="preloader">
+        <div class="jumper">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>  
+    <!-- ***** Preloader End ***** -->
+    
+    <!-- Header -->
+    <header class="">
+      <nav class="navbar navbar-expand-lg">
+        <div class="container">
+          <a class="navbar-brand" href="{% url 'home' %}"><h2>Watch <em>It</em></h2></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a class="nav-link active" href="{% url 'home' %}">Home
+                </a>
+              </li> 
+              <li class="nav-item">
+                <a class="nav-link" href="#">Our Products</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Your Orders</a>
+              </li>
+              {% if user.is_authenticated %}
+              <li class="nav-item">
+                <a class="nav-link" href="#">Profile</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link login-button" href="{% url 'logout' %}">Logout</a>
+              </li>
+              {% else %}
+              <li class="nav-item">
+                <a class="nav-link login-button" href="{% url 'login' %}">Login</a>
+              </li>
+              {% endif %}
+              <li class="nav-item">
+                <a class="nav-link cart-icon" href="{% url 'cart' %}">
+                  <i class="fa fa-shopping-cart"> <span class="badge badge-light">{{ cartItems }}</span></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Page Content -->
+    {% block content %}
+
+    {% endblock %}
+    
+
+    <footer>
+      <div class="container mt-5">
+        <hr>
+      </div>
+    </footer>
+    <!-- Bootstrap core JavaScript -->
+    <script src="{% static 'main/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'main/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+
+    <!-- Additional Scripts -->
+    <script src="{% static 'main/assets/js/custom.js' %}"></script>
+    <script src="{% static 'main/assets/js/owl.js' %}"></script>
+    <script src="{% static 'main/assets/js/slick.js' %}"></script>
+    <script src="{% static 'main/assets/js/isotope.js' %}"></script>
+    <script src="{% static 'main/assets/js/accordions.js' %}"></script>
+    <script src="{% static 'main/assets/js/cart.js' %}"></script>
+
+
+    <script language = "text/Javascript"> 
+      cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field
+      function clearField(t){                   //declaring the array outside of the
+      if(! cleared[t.id]){                      // function makes it static and global
+          cleared[t.id] = 1;  // you could use true and false, but that's more typing
+          t.value='';         // with more chance of typos
+          t.style.color='#fff';
+          }
+      }
+    </script>
+
+
+  </body>
+
+</html>

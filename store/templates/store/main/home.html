@@ -1,0 +1,35 @@
+{% extends 'store/main/base.html' %}
+{% load static %}
+{% block content %}
+<!-- Banner Starts Here -->
+    <div class="banner header-text">
+      <div class="banner-item-01">
+        <div class="text-content">
+          <h4>You Better</h4>
+          <h2>Watch It</h2>
+        </div>
+      </div>
+    </div>
+  <!-- Banner Ends Here -->
+<div class="latest-products">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="section-heading">
+            <h2>Latest Products</h2>
+            <a href="#">view all products <i class="fa fa-angle-right"></i></a>
+          </div>
+        </div>
+        {% for product in products %}
+        <div class="col-lg-4 col-md-6 col-sm-6">
+          <div class="product-item">
+              <a href="#"><img src="{{ product.imageURL }}" alt=""></a>
+              <div class="down-content">
+              <a href="#"><h4>{{ product.name }}</h4></a>
+              <h6>Rs.{{ product.price }}</h6>
+              <button data-product="{{ product.id }}" data-action="add" class="btn btn-outline-secondary btn-sm cart-button update-cart">Add to Cart</button>
+              </div>
+          </div>
+        </div>
+        {% endfor %}
+{% endblock %}

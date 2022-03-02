@@ -1,0 +1,55 @@
+{% extends 'company/dashboard/base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="card card-dark">
+            <div class="card-header">
+                <h1 class="card-title">Orders of Your Company:</h1>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body p-0">
+            <table class="table table-hover">
+                <thead class="table-secondary">
+                <tr>
+                    <th>ID</th>
+                    <th>Product Name</th>
+                    <th>Customer</th>
+                    <th>Quantity</th>
+                    <th>Total Price</th>
+                    <th>Placed at</th>
+                    <th class="text-center">Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                    
+                {% for order in allorders %}
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.product.name }}</td>
+                    <td>{{ order.customer.name }}</td>
+                    <td>{{ order.total_quantity }}</td>
+                    <td>{{ order.price }}</td>
+                    <td>{{ order.order_date }}</td>
+                    {% if order.status == 'Accepted' %}
+                        <td class="text-center"><span class="badge badge-pill badge-success p-2">Accepted</span></td>
+                    {% elif order.status == 'Pending Approval' %}
+                        <td class="text-center">
+                            <a href="{% url 'accept_order' order.id %}" type="button" class="btn btn-sm btn-success">Accept</a>
+                            <a href="{% url 'reject_order' order.id %}" type="button" class="btn btn-sm btn-danger">Reject</a>
+                        </td>
+                    {% else %}
+                        <td class="text-center"><span class="badge badge-pill badge-danger p-2">Rejected</span></td>
+                    {% endif %}
+                </tr>
+                {% empty %}
+                    <h1>No Orders</h1>
+                {% endfor %}
+                </tbody>
+            </table>
+            </div>
+        </div>
+       </div>
+    </div>
+
+{% endblock %}

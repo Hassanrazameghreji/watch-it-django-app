@@ -1,0 +1,39 @@
+{% extends 'company/authentication/base.html' %}
+
+{% block content %}
+<div class="hold-transition login-page">
+  <div class="login-box">
+    <div class="card card-outline card-primary">
+      <div class="card-header text-center">
+        <h1 style="font-family: Brush Script MT, Brush Script Std, cursive; letter-spacing: 1px; font-weight: 600;">CompanyDash</h1>
+      </div>
+      <div class="card-body">
+        <p class="login-box-msg">Enter OTP sent to you via Mail:</p>
+        <form action="" method="post">
+            {% csrf_token %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+          <div class="input-group mb-3">
+            <input type="number" class="form-control" name='otp' placeholder="Enter 6 digit OTP">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-key"></span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <button type="submit" class="btn btn-primary btn-block">Submit</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

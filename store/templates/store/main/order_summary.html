@@ -1,0 +1,38 @@
+{% extends 'customer/main/base.html' %}
+{% block content %}
+<div class="main-content">
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true"> &times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+        {% endif %}
+        <div class="order-section">
+            <h2>Your Order: </h2>
+            <table class="table table-bordered mt-4">
+                <thead>
+                    <tr>
+                        <th>Order Id</th>
+                        <th>Product Ordered</th>
+                        <th>Quantity</th>
+                        <th>Total Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ order.id }}</td>
+                        <td>{{ order.product.name }}</td>
+                        <td>{{ order.total_quantity }}</td>
+                        <td>{{ order.price }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
